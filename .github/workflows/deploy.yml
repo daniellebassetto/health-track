@@ -43,7 +43,6 @@ jobs:
         port: ${{ secrets.SERVER_PORT || 22 }}
         source: "."
         target: "/var/www/healthtrack/"
-        rm: true
         
     - name: Deploy with Docker Compose
       uses: appleboy/ssh-action@v1.0.3
