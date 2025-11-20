@@ -57,18 +57,6 @@
     flex-direction: column;
 }
 
-@media (max-width: 768px) {
-    .exam-card:hover {
-        transform: translateY(-4px) scale(1.01);
-    }
-}
-
-@media (max-width: 576px) {
-    .exam-card:hover {
-        transform: translateY(-2px);
-    }
-}
-
 .exam-card::before {
     content: '';
     position: absolute;
@@ -468,10 +456,9 @@
 /* Grid Layout */
 .exams-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
     gap: 1.5rem;
     justify-items: center;
-    padding: 0 0.5rem;
 }
 
 .exam-card-wrapper {
@@ -479,80 +466,35 @@
     max-width: 420px;
 }
 
-@media (max-width: 992px) {
-    .exams-grid {
-        grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-        gap: 1.25rem;
-    }
-}
-
 @media (max-width: 768px) {
     .exams-header {
-        padding: 1rem 0.75rem;
+        padding: 1rem;
     }
 
     .header-title {
         flex-direction: column;
-        align-items: center;
-        text-align: center;
-        gap: 1rem;
+        align-items: flex-start;
+        gap: 0.75rem;
     }
 
     .title-icon {
-        width: 45px;
-        height: 45px;
-        font-size: 1.1rem;
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
     }
 
     .create-exam-btn {
         width: 100%;
-        max-width: 300px;
-        margin-top: 0.5rem;
-        padding: 0.875rem 1.25rem;
+        margin-top: 1rem;
     }
 
     .exams-grid {
         grid-template-columns: 1fr;
         gap: 1rem;
-        padding: 0;
     }
 
     .exam-card {
         max-width: 100%;
-        margin: 0 auto;
-    }
-    
-    .exam-card-header {
-        padding: 1rem 1.25rem;
-        flex-direction: column;
-        text-align: center;
-        gap: 0.75rem;
-    }
-    
-    .exam-icon {
-        align-self: center;
-    }
-    
-    .exam-title {
-        text-align: center;
-    }
-    
-    .exam-status {
-        align-self: center;
-    }
-
-    .exam-card-body {
-        padding: 1rem 1.25rem;
-    }
-    
-    .exam-laboratory,
-    .exam-parameters-count {
-        padding: 0.625rem;
-        font-size: 0.85rem;
-    }
-    
-    .exam-notes {
-        padding: 0.875rem;
     }
 
     .card-footer .d-flex {
@@ -572,117 +514,5 @@
     .card-footer .dropdown-toggle {
         width: 100%;
         justify-content: center;
-    }
-    
-    .empty-exams-state {
-        padding: 3rem 1.5rem;
-    }
-    
-    .empty-exams-state .empty-icon {
-        font-size: 3.5rem;
-    }
-}
-
-@media (max-width: 576px) {
-    .exams-header {
-        padding: 0.875rem 0.5rem;
-    }
-    
-    .header-title h2 {
-        font-size: 1.4rem;
-    }
-    
-    .title-icon {
-        width: 40px;
-        height: 40px;
-        font-size: 1rem;
-    }
-    
-    .create-exam-btn {
-        font-size: 0.9rem;
-        padding: 0.75rem 1rem;
-    }
-    
-    .exam-card-header {
-        padding: 0.875rem 1rem;
-    }
-    
-    .exam-name {
-        font-size: 1rem;
-    }
-    
-    .exam-date {
-        font-size: 0.8rem;
-    }
-    
-    .status-badge {
-        font-size: 0.7rem;
-        padding: 0.2rem 0.6rem;
-    }
-    
-    .exam-card-body {
-        padding: 0.875rem 1rem;
-    }
-    
-    .exam-laboratory,
-    .exam-parameters-count {
-        padding: 0.5rem;
-        font-size: 0.8rem;
-    }
-    
-    .exam-notes {
-        padding: 0.75rem;
-        font-size: 0.85rem;
-    }
-    
-    .exam-card-footer {
-        padding: 0.875rem 1rem;
-    }
-    
-    .btn-view-details {
-        padding: 0.625rem;
-        font-size: 0.85rem;
-    }
-    
-    .empty-exams-state {
-        padding: 2rem 1rem;
-    }
-    
-    .empty-exams-state .empty-icon {
-        font-size: 3rem;
-    }
-    
-    .empty-exams-state .empty-title {
-        font-size: 1.25rem;
-    }
-    
-    .empty-exams-state .empty-description {
-        font-size: 1rem;
-    }
-}
-
-@media (max-width: 480px) {
-    .exams-header {
-        padding: 0.75rem 0.25rem;
-    }
-    
-    .header-title h2 {
-        font-size: 1.25rem;
-    }
-    
-    .exam-card-header {
-        padding: 0.75rem 0.875rem;
-    }
-    
-    .exam-card-body {
-        padding: 0.75rem 0.875rem;
-    }
-    
-    .exam-card-footer {
-        padding: 0.75rem 0.875rem;
-    }
-    
-    .empty-exams-state {
-        padding: 1.5rem 0.75rem;
     }
 }
