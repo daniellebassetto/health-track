@@ -1,0 +1,151 @@
+@model CreatePatientViewModel
+@{
+    ViewData["Title"] = "Completar Perfil";
+}
+
+<div class="container-fluid py-4">
+    <div class="row justify-content-center">
+        <div class="col-xl-8 col-lg-10">
+            <div class="card border-0 shadow-lg">
+                <div class="card-header text-center py-4" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white;">
+                    <div class="mb-3">
+                        <i class="bi bi-person-plus fs-1"></i>
+                    </div>
+                    <h3 class="fw-bold mb-2">Complete seu Perfil</h3>
+                    <p class="mb-0 opacity-90">Para continuar, precisamos de algumas informações básicas</p>
+                </div>
+                <div class="card-body p-5">
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger border-0 shadow-sm">
+                            <h6><i class="bi bi-exclamation-triangle me-2"></i>Corrija os erros abaixo:</h6>
+                            <div asp-validation-summary="All"></div>
+                        </div>
+                    }
+                    <form asp-area="Patient" asp-controller="Profile" asp-action="Create" method="post">
+                        <div class="mb-4">
+                            <h5 class="text-success mb-3"><i class="bi bi-person me-2"></i>Informações Pessoais</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input asp-for="FirstName" class="form-control" placeholder="Nome" readonly style="background-color: #f8f9fa; color: #6c757d;" />
+                                        <label for="FirstName">Nome *</label>
+                                        <span asp-validation-for="FirstName" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input asp-for="LastName" class="form-control" placeholder="Sobrenome" readonly style="background-color: #f8f9fa; color: #6c757d;" />
+                                        <label for="LastName">Sobrenome *</label>
+                                        <span asp-validation-for="LastName" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h5 class="text-success mb-3"><i class="bi bi-card-text me-2"></i>Documentos</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input asp-for="Cpf" class="form-control" placeholder="000.000.000-00" />
+                                        <label for="Cpf">CPF</label>
+                                        <span asp-validation-for="Cpf" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input asp-for="Rg" class="form-control" placeholder="00.000.000-0" />
+                                        <label for="Rg">RG</label>
+                                        <span asp-validation-for="Rg" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input asp-for="DateOfBirth" type="date" class="form-control" placeholder="Data de Nascimento" />
+                                        <label for="DateOfBirth">Data de Nascimento</label>
+                                        <span asp-validation-for="DateOfBirth" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <select asp-for="Gender" class="form-select">
+                                            <option value="0">Não definido</option>
+                                            <option value="1">Masculino</option>
+                                            <option value="2">Feminino</option>
+                                            <option value="3">Outro</option>
+                                        </select>
+                                        <label for="Gender">Gênero</label>
+                                        <span asp-validation-for="Gender" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h5 class="text-success mb-3"><i class="bi bi-telephone me-2"></i>Contato</h5>
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input asp-for="Phone" class="form-control" placeholder="(00) 00000-0000" />
+                                        <label for="Phone">Telefone</label>
+                                        <span asp-validation-for="Phone" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-floating">
+                                        <input asp-for="Email" type="email" class="form-control" readonly style="background-color: #f8f9fa; color: #6c757d;" placeholder="Email" />
+                                        <label for="Email">Email</label>
+                                        <span asp-validation-for="Email" class="text-danger small"></span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h5 class="text-success mb-3"><i class="bi bi-heart-pulse me-2"></i>Informações Médicas</h5>
+                            <div class="form-floating mb-3">
+                                <select asp-for="BloodType" class="form-select">
+                                    <option value="0">Não definido</option>
+                                    <option value="1">A+</option>
+                                    <option value="2">A-</option>
+                                    <option value="3">B+</option>
+                                    <option value="4">B-</option>
+                                    <option value="5">AB+</option>
+                                    <option value="6">AB-</option>
+                                    <option value="7">O+</option>
+                                    <option value="8">O-</option>
+                                </select>
+                                <label for="BloodType">Tipo Sanguíneo</label>
+                                <span asp-validation-for="BloodType" class="text-danger small"></span>
+                            </div>
+
+                            <div class="form-floating">
+                                <textarea asp-for="MedicalHistory" class="form-control" style="height: 120px; padding-top: 2rem; text-align: left;" placeholder="Descreva seu histórico médico, alergias, medicamentos em uso, etc."></textarea>
+                                <label for="MedicalHistory">Histórico Médico</label>
+                                <span asp-validation-for="MedicalHistory" class="text-danger small"></span>
+                            </div>
+                        </div>
+
+                        <div class="d-grid gap-2 pt-3">
+                            <button type="submit" class="btn btn-primary btn-lg py-3 fw-bold" style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); border: none;">
+                                <i class="bi bi-check-circle me-2"></i>Completar Perfil
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/masks.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', () => Masks.init());</script>
+}

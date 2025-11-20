@@ -1,0 +1,213 @@
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+@section Styles {
+    <link rel="stylesheet" href="~/css/dashboard.css" />
+}
+
+@section Scripts {
+    <script src="~/js/dashboard.js" asp-append-version="true"></script>
+}
+
+<div class="row">
+    <div class="col-12">
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                <i class="bi bi-check-circle"></i> @TempData["Success"]
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        }
+        <div class="dashboard-header mb-4 p-4 rounded-3"
+            style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%); color: white;">
+            <div class="d-flex justify-content-between align-items-center">
+                <div>
+                    <h1 class="h2 mb-2 fw-bold">Olá, @Model.FirstName!</h1>
+                    <p class="mb-0 opacity-75">Bem-vindo ao seu painel de saúde</p>
+                </div>
+                <div class="text-end">
+                    <a asp-area="Patient" asp-controller="Exam" asp-action="Create" class="btn btn-light btn-lg">
+                        <i class="bi bi-plus-circle me-2"></i>Novo Exame
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row mb-4">
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card border-0 shadow-sm h-100"
+            style="background: linear-gradient(135deg, #28a745 0%, #20c997 100%);">
+            <div class="card-body text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h3 class="fw-bold mb-1">@Model.TotalExams</h3>
+                        <p class="mb-0 opacity-75">Total de Exames</p>
+                    </div>
+                    <div class="fs-1 opacity-75">
+                        <i class="bi bi-activity"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card border-0 shadow-sm h-100"
+            style="background: linear-gradient(135deg, #ffc107 0%, #fd7e14 100%);">
+            <div class="card-body text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h3 class="fw-bold mb-1">@(Model.RecentExams?.Where(e => e.ExamDate >= DateTime.Now.AddDays(-30)).Count() ?? 0)</h3>
+                        <p class="mb-0 opacity-75">Último Mês</p>
+                    </div>
+                    <div class="fs-1 opacity-75">
+                        <i class="bi bi-calendar-check"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card border-0 shadow-sm h-100"
+            style="background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);">
+            <div class="card-body text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h3 class="fw-bold mb-1">@(Model.BloodType.ToString().Replace("Positive", "+").Replace("Negative", "-").Replace("NotDefined", "N/A"))</h3>
+                        <p class="mb-0 opacity-75">Tipo Sanguíneo</p>
+                    </div>
+                    <div class="fs-1 opacity-75">
+                        <i class="bi bi-droplet-fill"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-3 col-md-6 mb-4">
+        <div class="card border-0 shadow-sm h-100"
+            style="background: linear-gradient(135deg, #6f42c1 0%, #5a32a3 100%);">
+            <div class="card-body text-white">
+                <div class="d-flex justify-content-between align-items-center">
+                    <div>
+                        <h3 class="fw-bold mb-1">@(Model.DateOfBirth.HasValue ? DateTime.Now.Year - Model.DateOfBirth.Value.Year : 0)</h3>
+                        <p class="mb-0 opacity-75">Idade</p>
+                    </div>
+                    <div class="fs-1 opacity-75">
+                        <i class="bi bi-person-badge"></i>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-8">
+        <div class="card content-card">
+            <div class="card-header d-flex justify-content-between align-items-center">
+                <h5><i class="bi bi-clock-history me-2"></i> Exames Recentes</h5>
+                <div class="d-flex gap-2 flex-wrap">
+                    <a asp-area="Patient" asp-controller="Exam" asp-action="Create" class="btn btn-sm btn-success">
+                        <i class="bi bi-plus-circle me-1"></i> Novo Exame
+                    </a>
+                    <a asp-area="Patient" asp-controller="Exam" asp-action="Index"
+                        class="btn btn-sm btn-outline-primary">
+                        <i class="bi bi-list-ul me-1"></i> Ver Todos
+                    </a>
+                    <a asp-area="Patient" asp-controller="ExamAnalysis" asp-action="Compare" asp-route-patientId="@Model.PatientId"
+                        class="btn btn-sm btn-outline-info">
+                        <i class="bi bi-bar-chart-line me-1"></i> Comparar
+                    </a>
+                </div>
+            </div>
+            <div class="card-body">
+                @if (Model.RecentExams != null && Model.RecentExams.Any())
+                {
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Exame</th>
+                                    <th>Data</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var exam in Model.RecentExams)
+                                {
+                                    <tr>
+                                        <td>
+                                            <strong>@exam.ExamName</strong>
+                                        </td>
+                                        <td>
+                                            <span class="text-muted">@exam.ExamDate.ToString("dd/MM/yyyy")</span>
+                                        </td>
+                                        <td>
+                                            <a asp-area="Patient" asp-controller="Exam" asp-action="Details"
+                                                asp-route-id="@exam.ExamId" class="btn btn-sm btn-outline-primary">
+                                                <i class="bi bi-eye"></i> Ver
+                                            </a>
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="empty-state">
+                        <i class="bi bi-clipboard-plus"></i>
+                        <h4>Nenhum exame cadastrado</h4>
+                        <p>Comece criando seu primeiro exame e adicione parâmetros como glicemia, colesterol, etc.</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card content-card">
+            <div class="card-header">
+                <h5><i class="bi bi-person-circle me-2"></i> Informações Pessoais</h5>
+            </div>
+            <div class="card-body">
+                <div class="info-item">
+                    <span class="info-label">Nome Completo:</span>
+                    <span class="info-value">@Model.FirstName @Model.LastName</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Data Nascimento:</span>
+                    <span class="info-value">@(Model.DateOfBirth?.ToString("dd/MM/yyyy") ?? "Não informado")</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Idade:</span>
+                    <span class="info-value">@(Model.DateOfBirth.HasValue ? DateTime.Now.Year - Model.DateOfBirth.Value.Year : 0) anos</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Tipo Sanguíneo:</span>
+                    <span class="info-value">@(Model.BloodType.ToString().Replace("Positive", "+").Replace("Negative", "-").Replace("NotDefined", "Não informado"))</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Gênero:</span>
+                    <span class="info-value">@(Model.Gender == HealthTrack.Core.Models.Enums.Gender.Male ? "Masculino" : Model.Gender == HealthTrack.Core.Models.Enums.Gender.Female ? "Feminino" : "Não informado")</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Telefone:</span>
+                    <span class="info-value">@(string.IsNullOrEmpty(Model.Phone) ? "Não informado" : Model.Phone.Length == 11 ? $"({Model.Phone.Substring(0, 2)}) {Model.Phone.Substring(2, 5)}-{Model.Phone.Substring(7)}" : Model.Phone.Length == 10 ? $"({Model.Phone.Substring(0, 2)}) {Model.Phone.Substring(2, 4)}-{Model.Phone.Substring(6)}" : Model.Phone)</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Email:</span>
+                    <span class="info-value">@(Model.Email ?? "Não informado")</span>
+                </div>
+                <div class="mt-4 text-center">
+                    <a asp-area="Patient" asp-controller="Profile" asp-action="Edit" class="btn btn-outline-primary">
+                        <i class="bi bi-pencil me-1"></i> Editar Perfil
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

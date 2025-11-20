@@ -1,0 +1,328 @@
+@model ExamDetailsViewModel
+@{
+    ViewData["Title"] = "Detalhes do Exame";
+}
+
+<div class="exam-header mb-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="exam-title">
+            <div class="exam-icon">
+                <i class="bi bi-clipboard-check"></i>
+            </div>
+            <div>
+                <h2 class="mb-1">@Model.Exam.ExamName</h2>
+                <p class="text-muted mb-0">Realizado em @Model.Exam.ExamDate.ToString("dd/MM/yyyy")</p>
+            </div>
+        </div>
+        <a asp-area="Patient" asp-controller="Exam" asp-action="Index" class="btn btn-outline-primary">
+            <i class="bi bi-arrow-left"></i> Voltar
+        </a>
+    </div>
+</div>
+
+@if (!string.IsNullOrEmpty(Model.Exam.AiSummary))
+{
+    <div class="alert alert-info d-flex align-items-center mb-4" role="alert">
+        <i class="bi bi-robot me-2"></i>
+        <div class="flex-grow-1">
+            <strong>Resumo da IA disponível!</strong> Clique no botão "Ver Resumo da IA" para visualizar a análise completa.
+        </div>
+        <button type="button" class="btn btn-info btn-sm ms-2" onclick="showAiSummary()">
+            <i class="bi bi-eye"></i> Ver Resumo
+        </button>
+    </div>
+}
+
+@if (TempData["Error"] != null)
+{
+    <div class="alert alert-danger alert-dismissible fade show" role="alert">
+        @TempData["Error"]
+        <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+    </div>
+}
+
+<div class="row mb-4">
+    <div class="col-lg-8">
+        <div class="card exam-info-card">
+            <div class="card-header exam-card-header">
+                <div class="d-flex align-items-center">
+                    <div class="header-icon">
+                        <i class="bi bi-info-circle"></i>
+                    </div>
+                    <h5 class="mb-0 ms-2">Informações do Exame</h5>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="bi bi-calendar-event"></i> Data do Exame
+                            </div>
+                            <div class="info-value">@Model.Exam.ExamDate.ToString("dd/MM/yyyy")</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="bi bi-building"></i> Laboratório/Clínica
+                            </div>
+                            <div class="info-value">@(string.IsNullOrEmpty(Model.Exam.Laboratory) ? "Não informado" : Model.Exam.Laboratory)</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="bi bi-person-badge"></i> Médico que Solicitou
+                            </div>
+                            <div class="info-value">@(string.IsNullOrEmpty(Model.Exam.DoctorName) ? "Não informado" : Model.Exam.DoctorName)</div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="bi bi-card-text"></i> CRM do Médico
+                            </div>
+                            <div class="info-value">@(string.IsNullOrEmpty(Model.Exam.DoctorCrm) ? "Não informado" : Model.Exam.DoctorCrm)</div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="bi bi-shield-check"></i> Convênio
+                            </div>
+                            <div class="info-value">
+                                @if (Model.Exam.HasInsurance)
+                                {
+                                    <span class="badge bg-success">Sim</span>
+                                    @if (!string.IsNullOrEmpty(Model.Exam.InsuranceName))
+                                    {
+                                        <span class="ms-2">@Model.Exam.InsuranceName</span>
+                                    }
+                                }
+                                else
+                                {
+                                    <span class="badge bg-secondary">Não</span>
+                                }
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="bi bi-clock"></i> Horas de Jejum
+                            </div>
+                            <div class="info-value">
+                                @if (Model.Exam.FastingHours.HasValue)
+                                {
+                                    <span class="badge bg-info">@Model.Exam.FastingHours.Value horas</span>
+                                }
+                                else
+                                {
+                                    <span class="text-muted">Não informado</span>
+                                }
+                            </div>
+                        </div>
+                        
+                        <div class="info-item">
+                            <div class="info-label">
+                                <i class="bi bi-sticky"></i> Observações
+                            </div>
+                            <div class="info-value notes-text">@(string.IsNullOrEmpty(Model.Exam.Notes) ? "Não informado" : Model.Exam.Notes)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-lg-4">
+        <div class="card exam-actions-card">
+            <div class="card-header exam-card-header">
+                <div class="d-flex align-items-center">
+                    <div class="header-icon">
+                        <i class="bi bi-gear"></i>
+                    </div>
+                    <h5 class="mb-0 ms-2">Ações</h5>
+                </div>
+            </div>
+            <div class="card-body">
+                <a asp-area="Patient" asp-controller="Exam" asp-action="Edit" asp-route-id="@Model.Exam.ExamId" class="btn btn-warning action-btn w-100 mb-2">
+                    <i class="bi bi-pencil-square"></i> Editar Exame
+                </a>
+@if (!string.IsNullOrEmpty(Model.Exam.AiSummary))
+                {
+                    <button type="button" class="btn btn-info action-btn w-100 mb-2" onclick="showAiSummary()">
+                        <i class="bi bi-eye"></i> Ver Resumo da IA
+                    </button>
+                }
+                else
+                {
+                    <button type="button" class="btn btn-info action-btn w-100 mb-2" onclick="generateSummary(@Model.Exam.ExamId)" id="generateBtn">
+                        <i class="bi bi-robot"></i> <span id="btnText">Gerar resumo com IA</span>
+                    </button>
+                }
+                <form method="post" asp-action="Delete" asp-route-id="@Model.Exam.ExamId" onsubmit="return confirm('Tem certeza que deseja excluir este exame? Esta ação não pode ser desfeita.')" class="w-100">
+                    <button type="submit" class="btn btn-danger action-btn w-100">
+                        <i class="bi bi-trash"></i> Excluir Exame
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-12">
+        <div class="card exam-results-card">
+            <div class="card-header exam-card-header">
+                <div class="d-flex align-items-center">
+                    <div class="header-icon">
+                        <i class="bi bi-list-check"></i>
+                    </div>
+                    <h5 class="mb-0 ms-2">Resultados dos Parâmetros</h5>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                @if (Model.Exam.ExamParameters.Any())
+                {
+                    <div class="parameters-list">
+                        <div class="parameters-grid">
+                            @foreach (var parameter in Model.Exam.ExamParameters)
+                            {
+                                <div class="parameter-card-compact">
+                                    <div class="parameter-main">
+                                        <div class="parameter-name-compact">@parameter.ParameterName</div>
+                                        <div class="parameter-value-compact">
+                                            @if (!string.IsNullOrEmpty(parameter.NumericValue))
+                                            {
+                                                <span class="value-number-compact">@parameter.NumericValue</span>
+                                                @if (!string.IsNullOrEmpty(parameter.Unit))
+                                                {
+                                                    <span class="value-unit-compact">@parameter.Unit</span>
+                                                }
+                                            }
+                                            else if (!string.IsNullOrEmpty(parameter.TextValue))
+                                            {
+                                                <span class="value-text-compact">@parameter.TextValue</span>
+                                            }
+                                            else
+                                            {
+                                                <span class="value-empty-compact">-</span>
+                                            }
+                                        </div>
+                                    </div>
+                                    @if (!string.IsNullOrEmpty(parameter.ReferenceRange))
+                                    {
+                                        <div class="parameter-reference-compact">
+                                            <i class="bi bi-info-circle"></i> @parameter.ReferenceRange
+                                        </div>
+                                    }
+                                    @if (!string.IsNullOrEmpty(parameter.Comments))
+                                    {
+                                        <div class="parameter-comment-compact">
+                                            <i class="bi bi-chat-left-text"></i> @parameter.Comments
+                                        </div>
+                                    }
+                                </div>
+                            }
+                        </div>
+                    </div>
+                }
+                else
+                {
+                    <div class="empty-state">
+                        <div class="empty-icon">
+                            <i class="bi bi-clipboard-x"></i>
+                        </div>
+                        <h6 class="empty-title">Nenhum parâmetro encontrado</h6>
+                        <p class="empty-text">Os parâmetros devem ser adicionados durante a criação do exame.</p>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal do Resumo da IA -->
+<div class="modal fade" id="aiSummaryModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header bg-info text-white">
+                <h5 class="modal-title">
+                    <i class="bi bi-robot"></i> Resumo Gerado pela IA
+                </h5>
+                <button type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body modal-body-scrollable">
+                <div id="aiSummaryContent" class="ai-summary-modal-content">
+                    @if (!string.IsNullOrEmpty(Model.Exam.AiSummary))
+                    {
+                        @Html.Raw(Model.Exam.AiSummary)
+                    }
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fechar</button>
+                <button type="button" class="btn btn-info" onclick="generateSummary(@Model.Exam.ExamId)">
+                    <i class="bi bi-arrow-clockwise"></i> Atualizar Resumo
+                </button>
+                <button type="button" class="btn btn-success" onclick="generatePdf(@Model.Exam.ExamId)">
+                    <i class="bi bi-file-earmark-pdf"></i> Baixar PDF
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+function showAiSummary() {
+    new bootstrap.Modal(document.getElementById('aiSummaryModal')).show();
+}
+
+function generateSummary(examId) {
+    const btn = document.getElementById('generateBtn') || event.target;
+    const btnText = btn.querySelector('span') || btn;
+    const originalText = btnText.textContent;
+    
+    btn.disabled = true;
+    btnText.innerHTML = '<i class="bi bi-hourglass-split"></i> Gerando...';
+    
+    fetch('/Patient/Exam/GenerateSummary', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/x-www-form-urlencoded'
+        },
+        body: `id=${examId}`
+    })
+    .then(response => response.json())
+    .then(data => {
+        if (data.success) {
+            btnText.innerHTML = '<i class="bi bi-robot"></i> Atualizar resumo';
+            setTimeout(() => location.reload(), 1000);
+        } else {
+            alert(data.message || 'Erro ao gerar resumo');
+            btnText.innerHTML = originalText;
+        }
+    })
+    .catch(error => {
+        alert('Erro ao gerar resumo');
+        btnText.innerHTML = originalText;
+    })
+    .finally(() => {
+        btn.disabled = false;
+    });
+}
+
+function generatePdf(examId) {
+    const btn = event.target;
+    const originalText = btn.innerHTML;
+    
+    btn.disabled = true;
+    btn.innerHTML = '<i class="bi bi-hourglass-split"></i> Gerando PDF...';
+    
+    window.open(`/Patient/Exam/GeneratePdf?id=${examId}`, '_blank');
+    
+    setTimeout(() => {
+        btn.disabled = false;
+        btn.innerHTML = originalText;
+    }, 2000);
+}
+
+
+</script>

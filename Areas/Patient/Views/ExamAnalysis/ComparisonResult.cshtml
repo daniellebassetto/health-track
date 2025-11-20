@@ -1,0 +1,90 @@
+@model ExamComparisonViewModel
+@{
+    ViewData["Title"] = "Resultado da Comparação";
+}
+
+<div class="exams-header mb-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="header-title">
+            <div class="title-icon">
+                <i class="bi bi-graph-up"></i>
+            </div>
+            <div>
+                <h2 class="mb-1">Resultado da Comparação</h2>
+                <p class="text-muted mb-0">Análise comparativa dos exames selecionados</p>
+            </div>
+        </div>
+        <div class="d-flex gap-2">
+            <a asp-area="Patient" asp-controller="ExamAnalysis" asp-action="Compare" 
+               class="btn btn-primary create-exam-btn">
+                <i class="bi bi-arrow-left me-1"></i> Nova Comparação
+            </a>
+            <button onclick="window.print()" class="btn btn-outline-secondary">
+                <i class="bi bi-printer me-1"></i> Imprimir
+            </button>
+        </div>
+    </div>
+</div>
+
+@if (Model.ComparisonResult != null)
+{
+    <!-- Resumo dos Exames Comparados -->
+    <div class="card analysis-card mb-4">
+        <div class="card-header d-flex align-items-center">
+            <i class="bi bi-list-check me-2"></i>
+            <h5 class="mb-0">Exames Comparados (@Model.ComparisonResult.ComparedExams.Count)</h5>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                @foreach (var exam in Model.ComparisonResult.ComparedExams)
+                {
+                    <div class="col-md-6 col-lg-4 mb-3">
+                        <div class="exam-summary-card">
+                            <h6 class="exam-title">@exam.ExamName</h6>
+                            <div class="exam-meta">
+                                <small class="text-muted">
+                                    <i class="bi bi-calendar3"></i> @exam.ExamDate.ToString("dd/MM/yyyy")
+                                </small>
+                                @if (!string.IsNullOrEmpty(exam.Laboratory))
+                                {
+                                    <small class="text-muted d-block">
+                                        <i class="bi bi-building"></i> @exam.Laboratory
+                                    </small>
+                                }
+                                <small class="text-muted d-block">
+                                    <i class="bi bi-list-ul"></i> @exam.ParameterCount parâmetros
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+
+    <!-- Análise com IA -->
+    <div class="card analysis-card">
+        <div class="card-header d-flex align-items-center">
+            <i class="bi bi-robot me-2"></i>
+            <h5 class="mb-0">Análise Comparativa</h5>
+        </div>
+        <div class="card-body">
+            @if (!string.IsNullOrEmpty(Model.ComparisonResult.AiAnalysis))
+            {
+                <div class="ai-analysis-content">
+                    @Html.Raw(Model.ComparisonResult.AiAnalysis.Replace("\n", "<br>"))
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-warning">
+                    <i class="bi bi-exclamation-triangle"></i>
+                    Não foi possível gerar a análise comparativa. Tente novamente.
+                </div>
+            }
+        </div>
+    </div>
+}
+
+
+

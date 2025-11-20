@@ -1,0 +1,350 @@
+/* Exam Details Page Styles */
+.exam-header {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-radius: 1rem;
+    padding: 1.5rem;
+    border-left: 5px solid var(--health-primary);
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.exam-title {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.exam-icon {
+    width: 60px;
+    height: 60px;
+    background: linear-gradient(135deg, var(--health-primary) 0%, var(--health-secondary) 100%);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: white !important;
+    font-size: 1.5rem;
+    box-shadow: 0 0.25rem 0.5rem rgba(40, 167, 69, 0.25);
+}
+
+.exam-icon i {
+    color: white !important;
+}
+
+.exam-results-card,
+.exam-info-card,
+.exam-actions-card {
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+    overflow: hidden;
+}
+
+.exam-card-header {
+    background: linear-gradient(135deg, var(--health-primary) 0%, var(--health-secondary) 100%);
+    color: white;
+    border: none;
+    padding: 1rem 1.5rem;
+}
+
+.header-icon {
+    width: 32px;
+    height: 32px;
+    background: rgba(255, 255, 255, 0.2);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1rem;
+}
+
+/* Parameters List Styles */
+.parameters-list {
+    padding: 0;
+}
+
+.parameter-item {
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid #f1f3f4;
+    transition: all 0.3s ease;
+}
+
+.parameter-item:last-child {
+    border-bottom: none;
+}
+
+.parameter-item:hover {
+    background-color: #f8f9fa;
+}
+
+.parameter-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.5rem;
+}
+
+.parameter-name {
+    color: var(--medical-dark);
+    font-weight: 600;
+    margin: 0;
+    font-size: 1rem;
+}
+
+.parameter-value {
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+}
+
+.value-number {
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--health-primary);
+}
+
+.value-unit {
+    font-size: 0.875rem;
+    color: var(--medical-muted);
+    font-weight: 500;
+}
+
+.value-text {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--medical-blue);
+}
+
+.value-empty {
+    color: var(--medical-muted);
+    font-style: italic;
+}
+
+.parameter-reference {
+    margin-bottom: 0.5rem;
+}
+
+.parameter-reference small {
+    background: #e8f5e8;
+    color: var(--health-primary-dark);
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.375rem;
+    font-weight: 500;
+}
+
+.parameter-comment {
+    background: #fff3cd;
+    border-left: 3px solid var(--medical-warning);
+    padding: 0.75rem;
+    border-radius: 0.375rem;
+    margin-top: 0.5rem;
+}
+
+.comment-text {
+    color: var(--medical-warning-dark);
+    font-weight: 500;
+    margin: 0;
+}
+
+/* Parameters Grid Styles */
+.parameters-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1rem;
+    padding: 1rem;
+}
+
+.parameter-card-compact {
+    background: white;
+    border: 2px solid #f1f3f4;
+    border-radius: 0.75rem;
+    padding: 1rem;
+    transition: all 0.3s ease;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
+}
+
+.parameter-card-compact:hover {
+    border-color: var(--health-primary);
+    box-shadow: 0 0.25rem 0.5rem rgba(40, 167, 69, 0.15);
+    transform: translateY(-2px);
+}
+
+.parameter-main {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 0.75rem;
+}
+
+.parameter-name-compact {
+    font-weight: 600;
+    color: var(--medical-dark);
+    font-size: 0.9rem;
+    flex: 1;
+    margin-right: 1rem;
+}
+
+.parameter-value-compact {
+    display: flex;
+    align-items: baseline;
+    gap: 0.25rem;
+    flex-shrink: 0;
+}
+
+.value-number-compact {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--health-primary);
+}
+
+.value-unit-compact {
+    font-size: 0.8rem;
+    color: var(--medical-muted);
+    font-weight: 500;
+}
+
+.value-text-compact {
+    font-size: 0.9rem;
+    font-weight: 600;
+    color: var(--medical-blue);
+}
+
+.value-empty-compact {
+    color: var(--medical-muted);
+    font-style: italic;
+    font-size: 0.9rem;
+}
+
+.parameter-reference-compact {
+    background: #e8f5e8;
+    color: var(--health-primary-dark);
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    font-size: 0.8rem;
+    font-weight: 500;
+    margin-bottom: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.parameter-reference-compact i {
+    color: var(--health-primary);
+}
+
+.parameter-comment-compact {
+    background: #fff3cd;
+    border-left: 3px solid var(--medical-warning);
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    font-size: 0.8rem;
+    color: var(--medical-warning-dark);
+    font-weight: 500;
+    display: flex;
+    align-items: flex-start;
+    gap: 0.5rem;
+}
+
+.parameter-comment-compact i {
+    color: var(--medical-warning);
+    margin-top: 0.125rem;
+    flex-shrink: 0;
+}
+
+/* Info Items */
+.info-item {
+    padding: 1rem 0;
+    border-bottom: 1px solid #f1f3f4;
+}
+
+.info-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+}
+
+.info-label {
+    font-size: 0.875rem;
+    color: var(--medical-muted);
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.info-value {
+    font-size: 1rem;
+    color: var(--medical-dark);
+    font-weight: 500;
+}
+
+.notes-text {
+    background: #f8f9fa;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    border-left: 3px solid var(--health-primary);
+    font-style: italic;
+}
+
+/* Action Buttons */
+.action-btn {
+    font-weight: 600;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    transition: all 0.3s ease;
+}
+
+.action-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .exam-header {
+        padding: 1rem;
+    }
+    
+    .exam-title {
+        flex-direction: column;
+        text-align: center;
+        gap: 0.75rem;
+    }
+    
+    .exam-icon {
+        width: 50px;
+        height: 50px;
+        font-size: 1.25rem;
+    }
+    
+    .parameter-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+    }
+    
+    .parameter-value {
+        align-self: flex-end;
+    }
+    
+    .parameters-grid {
+        grid-template-columns: 1fr;
+        gap: 0.75rem;
+        padding: 0.75rem;
+    }
+    
+    .parameter-card-compact {
+        padding: 0.75rem;
+    }
+    
+    .parameter-main {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
+    
+    .parameter-name-compact {
+        margin-right: 0;
+        font-size: 0.85rem;
+    }
+}

@@ -1,0 +1,317 @@
+/* Patient Area Global Styles */
+
+:root {
+    /* Paleta Médica */
+    --health-primary: #28a745;
+    /* Verde saúde */
+    --health-primary-dark: #218838;
+    --health-secondary: #20c997;
+    /* Verde água */
+    --medical-blue: #007bff;
+    /* Azul médico */
+    --medical-blue-dark: #0056b3;
+    --medical-info: #17a2b8;
+    /* Ciano informativo */
+    --medical-info-dark: #138496;
+    --medical-danger: #dc3545;
+    /* Vermelho urgência */
+    --medical-danger-dark: #c82333;
+    --medical-warning: #ffc107;
+    /* Amarelo atenção */
+    --medical-warning-dark: #e0a800;
+
+    /* Tons neutros */
+    --medical-light: #f8f9fa;
+    --medical-dark: #343a40;
+    --medical-muted: #6c757d;
+}
+
+/* Navigation improvements */
+.navbar-nav .nav-link {
+    transition: all 0.3s ease;
+    color: #6c757d !important;
+    position: relative;
+}
+
+.navbar-nav .nav-link:hover {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white !important;
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+}
+
+.navbar-nav .nav-link.active {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    color: white !important;
+    font-weight: 600;
+    box-shadow: 0 4px 8px rgba(40, 167, 69, 0.3);
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 700;
+}
+
+.navbar {
+    padding: 1rem 0;
+}
+
+/* Alert improvements */
+.alert {
+    border: none;
+    border-radius: 0.75rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+}
+
+.alert-success {
+    background: linear-gradient(135deg, #d4edda 0%, #c3e6cb 100%);
+    color: #155724;
+}
+
+.alert-success .bi {
+    color: #28a745;
+}
+
+/* Button improvements */
+.btn {
+    border-radius: 0.5rem;
+    font-weight: 500;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+}
+
+.btn-primary {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border: none;
+    box-shadow: 0 0.25rem 0.5rem rgba(40, 167, 69, 0.25);
+}
+
+.btn-primary:hover {
+    background: linear-gradient(135deg, #218838 0%, #1e7e34 100%);
+    box-shadow: 0 0.5rem 1rem rgba(40, 167, 69, 0.35);
+}
+
+.btn-outline-primary {
+    border-color: #28a745;
+    color: #28a745;
+    border-width: 2px;
+}
+
+.btn-outline-primary:hover {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border-color: #28a745;
+    box-shadow: 0 0.25rem 0.5rem rgba(40, 167, 69, 0.25);
+}
+
+.btn-success {
+    background: linear-gradient(135deg, #007bff 0%, #0056b3 100%);
+    border: none;
+    box-shadow: 0 0.25rem 0.5rem rgba(0, 123, 255, 0.25);
+}
+
+.btn-success:hover {
+    background: linear-gradient(135deg, #0069d9 0%, #004085 100%);
+    box-shadow: 0 0.5rem 1rem rgba(0, 123, 255, 0.35);
+}
+
+.btn-danger {
+    background: linear-gradient(135deg, #dc3545 0%, #c82333 100%);
+    border: none;
+    box-shadow: 0 0.25rem 0.5rem rgba(220, 53, 69, 0.25);
+}
+
+.btn-danger:hover {
+    background: linear-gradient(135deg, #c82333 0%, #a71e2a 100%);
+    box-shadow: 0 0.5rem 1rem rgba(220, 53, 69, 0.35);
+}
+
+/* Card improvements */
+.card {
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15) !important;
+}
+
+/* Form improvements */
+.form-control {
+    border-radius: 0.5rem;
+    border: 2px solid #e9ecef;
+    transition: all 0.3s ease;
+}
+
+.form-control:focus {
+    border-color: #28a745;
+    box-shadow: 0 0 0 0.2rem rgba(40, 167, 69, 0.25);
+}
+
+/* Table improvements */
+.table {
+    border-radius: 0.5rem;
+    overflow: hidden;
+}
+
+.table thead th {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border: none;
+}
+
+/* Loading animation */
+@keyframes pulse {
+    0% {
+        opacity: 1;
+    }
+
+    50% {
+        opacity: 0.5;
+    }
+
+    100% {
+        opacity: 1;
+    }
+}
+
+.loading {
+    animation: pulse 1.5s ease-in-out infinite;
+}
+
+/* Responsive improvements */
+@media (max-width: 768px) {
+    .container-fluid {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+
+    .navbar-brand {
+        font-size: 1.1rem;
+    }
+
+    .btn {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+    }
+}
+
+/* Scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, #218838 0%, #1e7e34 100%);
+}
+
+/* AI Summary Styles */
+.ai-summary-card {
+    border: none;
+    border-radius: 1rem;
+    background: linear-gradient(135deg, #e3f2fd 0%, #f0f8ff 100%);
+    border-left: 4px solid var(--medical-info);
+    box-shadow: 0 0.25rem 0.5rem rgba(23, 162, 184, 0.15);
+}
+
+.ai-summary-header {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    color: var(--medical-info-dark);
+}
+
+.ai-summary-header i {
+    font-size: 1.5rem;
+    color: var(--medical-info);
+}
+
+.ai-summary-header h5 {
+    font-weight: 600;
+    color: var(--medical-info-dark);
+}
+
+.ai-summary-content {
+    background: white;
+    padding: 1rem;
+    border-radius: 0.5rem;
+    border-left: 3px solid var(--medical-info);
+    line-height: 1.6;
+    color: var(--medical-dark);
+    font-size: 0.95rem;
+    box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.05);
+}
+
+.ai-summary-modal-content {
+    line-height: 1.7;
+    color: var(--medical-dark);
+    font-size: 1rem;
+}
+
+.ai-summary-modal-content strong {
+    color: var(--health-primary);
+    font-weight: 600;
+}
+
+.ai-summary-modal-content ul {
+    margin: 1rem 0;
+    padding-left: 1.5rem;
+}
+
+.ai-summary-modal-content li {
+    margin-bottom: 0.5rem;
+}
+
+.modal-header.bg-info {
+    background: linear-gradient(135deg, var(--medical-info) 0%, var(--medical-info-dark) 100%) !important;
+}
+
+.modal-content {
+    border: none;
+    border-radius: 1rem;
+    box-shadow: 0 1rem 3rem rgba(0, 0, 0, 0.175);
+}
+
+.modal-header {
+    border-bottom: 2px solid #f1f3f4;
+    border-radius: 1rem 1rem 0 0;
+}
+
+.modal-footer {
+    border-top: 2px solid #f1f3f4;
+    border-radius: 0 0 1rem 1rem;
+}
+
+.modal-body-scrollable {
+    max-height: 70vh;
+    overflow-y: auto;
+}
+
+.modal-body-scrollable::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal-body-scrollable::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.modal-body-scrollable::-webkit-scrollbar-thumb {
+    background: linear-gradient(135deg, var(--medical-info) 0%, var(--medical-info-dark) 100%);
+    border-radius: 4px;
+}
+
+.modal-body-scrollable::-webkit-scrollbar-thumb:hover {
+    background: linear-gradient(135deg, var(--medical-info-dark) 0%, var(--medical-info) 100%);
+}

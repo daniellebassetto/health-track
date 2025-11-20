@@ -1,0 +1,127 @@
+@model ExamListViewModel
+@{
+    ViewData["Title"] = "Meus Exames";
+}
+
+<div class="exams-header mb-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="header-title">
+            <div class="title-icon">
+                <i class="bi bi-clipboard-data"></i>
+            </div>
+            <div>
+                <h2 class="mb-1">Meus Exames</h2>
+                <p class="text-muted mb-0">@Model.Exams.Count() exame(s) encontrado(s)</p>
+            </div>
+        </div>
+        <a asp-area="Patient" asp-controller="Exam" asp-action="Create" class="btn btn-primary create-exam-btn">
+            <i class="bi bi-plus-circle me-1"></i> Novo Exame
+        </a>
+    </div>
+</div>
+
+@if (Model.Exams.Any())
+{
+    <div class="exams-grid">
+        @foreach (var exam in Model.Exams)
+        {
+            <div class="exam-card-wrapper">
+                <div class="exam-card">
+                    <div class="exam-card-header">
+                        <div class="exam-icon">
+                            <i class="bi bi-clipboard-check"></i>
+                        </div>
+                        <div class="exam-title">
+                            <h6 class="exam-name">@exam.ExamName</h6>
+                            <div class="exam-date">
+                                <i class="bi bi-calendar3"></i>
+                                <span>@exam.ExamDate.ToString("dd/MM/yyyy")</span>
+                            </div>
+                        </div>
+                        <div class="exam-status">
+                            <span class="status-badge">Concluído</span>
+                        </div>
+                    </div>
+                    
+                    <div class="exam-card-body">
+                        @if (!string.IsNullOrEmpty(exam.Laboratory))
+                        {
+                            <div class="exam-laboratory">
+                                <i class="bi bi-building"></i>
+                                <span>@exam.Laboratory</span>
+                            </div>
+                        }
+                        
+                        <div class="exam-parameters-count">
+                            <i class="bi bi-list-check"></i>
+                            <span>@exam.ExamParameters.Count parâmetro(s) analisado(s)</span>
+                        </div>
+                        
+                        @if (!string.IsNullOrEmpty(exam.Notes))
+                        {
+                            <div class="exam-notes">
+                                <i class="bi bi-sticky"></i>
+                                <span>@exam.Notes</span>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="exam-no-notes">
+                                <i class="bi bi-info-circle"></i>
+                                <span>Sem observações adicionais</span>
+                            </div>
+                        }
+                    </div>
+                    
+                    <div class="exam-card-footer">
+                        <a asp-area="Patient" asp-controller="Exam" asp-action="Details" asp-route-id="@exam.ExamId" class="btn-view-details">
+                            <i class="bi bi-eye"></i>
+                            <span>Ver Detalhes</span>
+                        </a>
+                        <div class="dropdown">
+                            <button class="btn btn-outline-secondary btn-sm dropdown-toggle" type="button" data-bs-toggle="dropdown">
+                                <i class="bi bi-three-dots-vertical"></i>
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" asp-area="Patient" asp-controller="Exam" asp-action="Edit" asp-route-id="@exam.ExamId">
+                                    <i class="bi bi-pencil-square"></i> Editar
+                                </a></li>
+                                <li><hr class="dropdown-divider"></li>
+                                <li><a class="dropdown-item text-danger" href="#" onclick="confirmDelete(@exam.ExamId)">
+                                    <i class="bi bi-trash"></i> Excluir
+                                </a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}
+else
+{
+    <div class="empty-exams-state">
+        <div class="empty-icon">
+            <i class="bi bi-clipboard-x"></i>
+        </div>
+        <h4 class="empty-title">Nenhum exame encontrado</h4>
+        <p class="empty-description">Você ainda não possui exames cadastrados no sistema.</p>
+        <a asp-area="Patient" asp-controller="Exam" asp-action="Create" class="btn btn-primary empty-action-btn">
+            <i class="bi bi-plus-circle me-2"></i>Cadastrar Primeiro Exame
+        </a>
+    </div>
+}
+
+<form id="deleteForm" method="post" style="display: none;">
+    @Html.AntiForgeryToken()
+</form>
+
+<script>
+function confirmDelete(examId) {
+    if (confirm('Tem certeza que deseja excluir este exame? Esta ação não pode ser desfeita.')) {
+        const form = document.getElementById('deleteForm');
+        form.action = '/Patient/Exam/Delete/' + examId;
+        form.submit();
+    }
+}
+</script>

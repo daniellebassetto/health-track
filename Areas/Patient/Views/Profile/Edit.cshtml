@@ -1,0 +1,202 @@
+@model EditPatientViewModel
+@{
+    ViewData["Title"] = "Editar Perfil";
+}
+
+<div class="profile-header mb-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="header-title">
+            <div class="profile-icon">
+                <i class="bi bi-person-circle"></i>
+            </div>
+            <div>
+                <h2 class="mb-1">Editar Perfil</h2>
+                <p class="text-muted mb-0">Atualize suas informações pessoais</p>
+            </div>
+        </div>
+        <a asp-area="Patient" asp-controller="Profile" asp-action="Index" class="btn btn-outline-primary">
+            <i class="bi bi-arrow-left"></i> Cancelar
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-10">
+        <div class="card profile-form-card">
+            <div class="card-header profile-card-header">
+                <div class="d-flex align-items-center">
+                    <div class="header-icon">
+                        <i class="bi bi-pencil"></i>
+                    </div>
+                    <h5 class="mb-0 ms-2">Informações Pessoais</h5>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <form asp-action="Edit" method="post" class="profile-form">
+
+                    
+                    <div class="form-section">
+                        <h6 class="section-title">
+                            <i class="bi bi-person"></i> Dados Básicos
+                        </h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="FirstName" class="form-label">
+                                        <i class="bi bi-person-badge"></i> Nome *
+                                    </label>
+                                    <input asp-for="FirstName" class="form-control readonly-field" readonly />
+                                    <small class="form-text">Este campo não pode ser alterado</small>
+                                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="LastName" class="form-label">
+                                        <i class="bi bi-person-badge"></i> Sobrenome *
+                                    </label>
+                                    <input asp-for="LastName" class="form-control readonly-field" readonly />
+                                    <small class="form-text">Este campo não pode ser alterado</small>
+                                    <span asp-validation-for="LastName" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h6 class="section-title">
+                            <i class="bi bi-card-text"></i> Documentos
+                        </h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Cpf" class="form-label">
+                                        <i class="bi bi-credit-card"></i> CPF
+                                    </label>
+                                    <input asp-for="Cpf" class="form-control" placeholder="000.000.000-00" />
+                                    <span asp-validation-for="Cpf" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Rg" class="form-label">
+                                        <i class="bi bi-card-heading"></i> RG
+                                    </label>
+                                    <input asp-for="Rg" class="form-control" placeholder="00.000.000-0" />
+                                    <span asp-validation-for="Rg" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h6 class="section-title">
+                            <i class="bi bi-calendar-heart"></i> Informações Pessoais
+                        </h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="DateOfBirth" class="form-label">
+                                        <i class="bi bi-calendar3"></i> Data de Nascimento
+                                    </label>
+                                    <input asp-for="DateOfBirth" type="date" class="form-control" />
+                                    <span asp-validation-for="DateOfBirth" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Gender" class="form-label">
+                                        <i class="bi bi-gender-ambiguous"></i> Gênero
+                                    </label>
+                                    <select asp-for="Gender" class="form-select">
+                                        <option value="0">Não definido</option>
+                                        <option value="1">Masculino</option>
+                                        <option value="2">Feminino</option>
+                                        <option value="3">Outro</option>
+                                    </select>
+                                    <span asp-validation-for="Gender" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h6 class="section-title">
+                            <i class="bi bi-telephone"></i> Contato
+                        </h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Phone" class="form-label">
+                                        <i class="bi bi-phone"></i> Telefone
+                                    </label>
+                                    <input asp-for="Phone" class="form-control" placeholder="(00) 00000-0000" />
+                                    <span asp-validation-for="Phone" class="text-danger"></span>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="Email" class="form-label">
+                                        <i class="bi bi-envelope"></i> Email
+                                    </label>
+                                    <input asp-for="Email" type="email" class="form-control readonly-field" readonly />
+                                    <small class="form-text">Este campo não pode ser alterado</small>
+                                    <span asp-validation-for="Email" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-section">
+                        <h6 class="section-title">
+                            <i class="bi bi-heart-pulse"></i> Informações Médicas
+                        </h6>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label asp-for="BloodType" class="form-label">
+                                        <i class="bi bi-droplet"></i> Tipo Sanguíneo
+                                    </label>
+                                    <select asp-for="BloodType" class="form-select">
+                                        <option value="0">Não definido</option>
+                                        <option value="1">A+</option>
+                                        <option value="2">A-</option>
+                                        <option value="3">B+</option>
+                                        <option value="4">B-</option>
+                                        <option value="5">AB+</option>
+                                        <option value="6">AB-</option>
+                                        <option value="7">O+</option>
+                                        <option value="8">O-</option>
+                                    </select>
+                                    <span asp-validation-for="BloodType" class="text-danger"></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label asp-for="MedicalHistory" class="form-label">
+                                <i class="bi bi-clipboard-pulse"></i> Histórico Médico
+                            </label>
+                            <textarea asp-for="MedicalHistory" class="form-control" rows="4" placeholder="Descreva seu histórico médico, alergias, medicamentos em uso, etc."></textarea>
+                            <span asp-validation-for="MedicalHistory" class="text-danger"></span>
+                        </div>
+                    </div>
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary save-btn">
+                            <i class="bi bi-check-circle"></i> Salvar Alterações
+                        </button>
+                        <a asp-area="Patient" asp-controller="Profile" asp-action="Index" class="btn btn-outline-secondary cancel-btn">
+                            <i class="bi bi-x-circle"></i> Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script src="~/js/masks.js"></script>
+    <script>document.addEventListener('DOMContentLoaded', () => Masks.init());</script>
+}

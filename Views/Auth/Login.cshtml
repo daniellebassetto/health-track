@@ -1,0 +1,59 @@
+@model HealthTrack.ViewModels.LoginViewModel
+@{
+    ViewData["Title"] = "Entrar";
+    Layout = "~/Views/Shared/_AuthLayout.cshtml";
+}
+
+<div class="auth-form-header">
+    <h2>Bem-vindo de volta</h2>
+    <p>Entre com suas credenciais</p>
+</div>
+
+<form asp-action="Login" method="post">
+    @if (!ViewData.ModelState.IsValid && ViewData.ModelState.ErrorCount > 0)
+    {
+        <div asp-validation-summary="ModelOnly" class="alert alert-danger alert-auth" role="alert"></div>
+    }
+    
+    <div class="form-group">
+        <div class="form-floating">
+            <input asp-for="Email" class="form-control" autocomplete="username" placeholder="nome@exemplo.com" />
+            <label asp-for="Email">Email</label>
+            <span asp-validation-for="Email" class="text-danger"></span>
+        </div>
+    </div>
+    
+    <div class="form-group">
+        <div class="form-floating">
+            <input asp-for="Password" class="form-control" autocomplete="current-password" placeholder="Senha" />
+            <label asp-for="Password">Senha</label>
+            <span asp-validation-for="Password" class="text-danger"></span>
+        </div>
+    </div>
+    
+    <div class="form-check">
+        <input asp-for="RememberMe" class="form-check-input" />
+        <label asp-for="RememberMe" class="form-check-label">
+            Lembrar de mim
+        </label>
+    </div>
+    
+    <button type="submit" class="btn btn-auth btn-auth-primary">
+        <i class="bi bi-box-arrow-in-right me-2"></i>Entrar
+    </button>
+</form>
+
+<div class="auth-divider">
+    <span>ou</span>
+</div>
+
+<div class="text-center">
+    <p class="mb-0">
+        Não tem uma conta? 
+        <a class="auth-link" asp-action="Register">Criar conta</a>
+    </p>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

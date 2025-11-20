@@ -1,0 +1,350 @@
+@model EditExamViewModel
+@{
+    ViewData["Title"] = "Editar Exame";
+}
+
+<div class="create-exam-header mb-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="header-title">
+            <div class="create-exam-icon">
+                <i class="bi bi-pencil-square"></i>
+            </div>
+            <div>
+                <h2 class="mb-1">Editar Exame</h2>
+                <p class="text-muted mb-0">Atualize as informações do exame</p>
+            </div>
+        </div>
+        <a asp-area="Patient" asp-controller="Exam" asp-action="Details" asp-route-id="@Model.ExamId" class="btn btn-outline-primary">
+            <i class="bi bi-arrow-left"></i> Voltar
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-lg-10">
+        <div class="card create-exam-card">
+            <div class="card-header create-exam-card-header">
+                <div class="d-flex align-items-center">
+                    <div class="header-icon">
+                        <i class="bi bi-clipboard-check"></i>
+                    </div>
+                    <h5 class="mb-0 ms-2">Informações do Exame</h5>
+                </div>
+            </div>
+            <div class="card-body p-4">
+                <form method="post" class="create-exam-form">
+                    @Html.AntiForgeryToken()
+                    <input asp-for="ExamId" type="hidden" />
+                    <input asp-for="PatientId" type="hidden" />
+                    
+                    <div class="form-group">
+                        <label asp-for="ExamName" class="form-label">
+                            <i class="bi bi-clipboard-check"></i> Nome do Exame
+                        </label>
+                        <input asp-for="ExamName" class="form-control" placeholder="Ex: Check-up Anual, Exames de Rotina, etc.">
+                        <span asp-validation-for="ExamName" class="text-danger"></span>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="ExamDate" class="form-label">
+                                    <i class="bi bi-calendar3"></i> Data do Exame
+                                </label>
+                                <input asp-for="ExamDate" type="date" class="form-control">
+                                <span asp-validation-for="ExamDate" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="Laboratory" class="form-label">
+                                    <i class="bi bi-building"></i> Laboratório/Clínica
+                                </label>
+                                <input asp-for="Laboratory" class="form-control" placeholder="Ex: Laboratório São Paulo, Clínica ABC...">
+                                <span asp-validation-for="Laboratory" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-6">
+                            <div class="form-group">
+                                <label asp-for="DoctorName" class="form-label">
+                                    <i class="bi bi-person-badge"></i> Médico que Solicitou o Exame
+                                </label>
+                                <input asp-for="DoctorName" class="form-control" placeholder="Ex: Dr. João Silva">
+                                <span asp-validation-for="DoctorName" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label asp-for="DoctorCrm" class="form-label">
+                                    <i class="bi bi-card-text"></i> CRM do Médico Solicitante
+                                </label>
+                                <input asp-for="DoctorCrm" class="form-control" placeholder="Ex: 123456/SP">
+                                <span asp-validation-for="DoctorCrm" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label asp-for="FastingHours" class="form-label">
+                                    <i class="bi bi-clock"></i> Horas de Jejum
+                                </label>
+                                <input asp-for="FastingHours" type="number" min="0" max="72" class="form-control" placeholder="Ex: 12">
+                                <span asp-validation-for="FastingHours" class="text-danger"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label class="form-label">
+                                    <i class="bi bi-shield-check"></i> Possui Convênio?
+                                </label>
+                                <div class="form-check">
+                                    <input asp-for="HasInsurance" class="form-check-input" type="checkbox" onchange="toggleInsuranceName()">
+                                    <label asp-for="HasInsurance" class="form-check-label">
+                                        Sim, possui convênio médico
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group" id="insuranceNameGroup">
+                                <label asp-for="InsuranceName" class="form-label">
+                                    <i class="bi bi-card-list"></i> Nome do Convênio
+                                </label>
+                                <input asp-for="InsuranceName" class="form-control" placeholder="Ex: Unimed, Bradesco Saúde...">
+                                <span asp-validation-for="InsuranceName" class="text-danger"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label asp-for="Notes" class="form-label">
+                            <i class="bi bi-chat-text"></i> Observações (Opcional)
+                        </label>
+                        <textarea asp-for="Notes" class="form-control" rows="3" placeholder="Observações gerais sobre o exame..."></textarea>
+                        <span asp-validation-for="Notes" class="text-danger"></span>
+                    </div>
+
+                    <div class="parameters-section">
+                        <div class="section-header">
+                            <div class="section-title">
+                                <i class="bi bi-list-check"></i> Parâmetros do Exame
+                            </div>
+                            <button type="button" class="btn btn-primary add-parameter-btn" onclick="addParameter()">
+                                <i class="bi bi-plus-circle"></i> Adicionar Parâmetro
+                            </button>
+                        </div>
+
+                        <div id="parametersContainer" class="parameters-scroll">
+                            @for (int i = 0; i < Model.ExamParameters.Count; i++)
+                            {
+                                <div class="parameter-card" data-index="@i">
+                                    <div class="parameter-header">
+                                        <div class="parameter-number">
+                                            <span class="parameter-badge">@(i + 1)</span>
+                                            <h6 class="parameter-title">Parâmetro @(i + 1)</h6>
+                                        </div>
+                                        <button type="button" class="btn btn-outline-danger btn-sm remove-btn" onclick="removeParameter(this)">
+                                            <i class="bi bi-trash"></i>
+                                        </button>
+                                    </div>
+                                    
+                                    <input asp-for="ExamParameters[i].ExamParameterId" type="hidden" />
+                                    
+                                    <div class="parameter-fields">
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label asp-for="ExamParameters[i].ParameterName" class="form-label">
+                                                        <i class="bi bi-tag"></i> Nome do Parâmetro
+                                                    </label>
+                                                    <input asp-for="ExamParameters[i].ParameterName" class="form-control" 
+                                                           placeholder="Ex: Glicemia, Colesterol Total...">
+                                                    <span asp-validation-for="ExamParameters[i].ParameterName" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label asp-for="ExamParameters[i].NumericValue" class="form-label">
+                                                        <i class="bi bi-123"></i> Valor
+                                                    </label>
+                                                    <input asp-for="ExamParameters[i].NumericValue" class="form-control" 
+                                                           placeholder="Ex: 95, Normal...">
+                                                    <span asp-validation-for="ExamParameters[i].NumericValue" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label asp-for="ExamParameters[i].Unit" class="form-label">
+                                                        <i class="bi bi-rulers"></i> Unidade
+                                                    </label>
+                                                    <input asp-for="ExamParameters[i].Unit" class="form-control" 
+                                                           placeholder="Ex: mg/dL, %...">
+                                                    <span asp-validation-for="ExamParameters[i].Unit" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        
+                                        <div class="row">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label asp-for="ExamParameters[i].ReferenceRange" class="form-label">
+                                                        <i class="bi bi-info-circle"></i> Referência
+                                                    </label>
+                                                    <input asp-for="ExamParameters[i].ReferenceRange" class="form-control" 
+                                                           placeholder="Ex: 70-100, <200...">
+                                                    <span asp-validation-for="ExamParameters[i].ReferenceRange" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label asp-for="ExamParameters[i].Comments" class="form-label">
+                                                        <i class="bi bi-chat-left-text"></i> Comentários
+                                                    </label>
+                                                    <input asp-for="ExamParameters[i].Comments" class="form-control" 
+                                                           placeholder="Observações sobre este parâmetro...">
+                                                    <span asp-validation-for="ExamParameters[i].Comments" class="text-danger"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                        </div>
+                    </div>
+                    
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary create-btn">
+                            <i class="bi bi-check-circle"></i> Salvar Alterações
+                        </button>
+                        <a asp-area="Patient" asp-controller="Exam" asp-action="Details" asp-route-id="@Model.ExamId" class="btn btn-outline-secondary cancel-btn">
+                            <i class="bi bi-x-circle"></i> Cancelar
+                        </a>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    
+    <script>
+        let parameterIndex = @Model.ExamParameters.Count;
+        
+        function addParameter() {
+            const container = document.getElementById('parametersContainer');
+            const newParameterHtml = `
+                <div class="parameter-card" data-index="${parameterIndex}">
+                    <div class="parameter-header">
+                        <div class="parameter-number">
+                            <span class="parameter-badge">${parameterIndex + 1}</span>
+                            <h6 class="parameter-title">Parâmetro ${parameterIndex + 1}</h6>
+                        </div>
+                        <button type="button" class="btn btn-outline-danger btn-sm remove-btn" onclick="removeParameter(this)">
+                            <i class="bi bi-trash"></i>
+                        </button>
+                    </div>
+                    
+                    <input name="ExamParameters[${parameterIndex}].ExamParameterId" type="hidden" value="0" />
+                    
+                    <div class="parameter-fields">
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label"><i class="bi bi-tag"></i> Nome do Parâmetro</label>
+                                    <input name="ExamParameters[${parameterIndex}].ParameterName" class="form-control" placeholder="Ex: Glicemia, Colesterol Total...">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="form-label"><i class="bi bi-123"></i> Valor</label>
+                                    <input name="ExamParameters[${parameterIndex}].NumericValue" class="form-control" placeholder="Ex: 95, Normal...">
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="form-group">
+                                    <label class="form-label"><i class="bi bi-rulers"></i> Unidade</label>
+                                    <input name="ExamParameters[${parameterIndex}].Unit" class="form-control" placeholder="Ex: mg/dL, %...">
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="row">
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label"><i class="bi bi-info-circle"></i> Referência</label>
+                                    <input name="ExamParameters[${parameterIndex}].ReferenceRange" class="form-control" placeholder="Ex: 70-100, <200...">
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-group">
+                                    <label class="form-label"><i class="bi bi-chat-left-text"></i> Comentários</label>
+                                    <input name="ExamParameters[${parameterIndex}].Comments" class="form-control" placeholder="Observações sobre este parâmetro...">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            `;
+            
+            container.insertAdjacentHTML('beforeend', newParameterHtml);
+            parameterIndex++;
+            updateParameterNumbers();
+        }
+        
+        function removeParameter(button) {
+            const parameterCard = button.closest('.parameter-card');
+            parameterCard.remove();
+            updateParameterNumbers();
+            reindexParameters();
+        }
+        
+        function updateParameterNumbers() {
+            const parameterCards = document.querySelectorAll('.parameter-card');
+            parameterCards.forEach((card, index) => {
+                const badge = card.querySelector('.parameter-badge');
+                const title = card.querySelector('.parameter-title');
+                if (badge) badge.textContent = index + 1;
+                if (title) title.textContent = `Parâmetro ${index + 1}`;
+            });
+        }
+        
+        function reindexParameters() {
+            const parameterCards = document.querySelectorAll('.parameter-card');
+            parameterCards.forEach((card, index) => {
+                const inputs = card.querySelectorAll('input');
+                inputs.forEach(input => {
+                    const name = input.getAttribute('name');
+                    if (name && name.includes('ExamParameters[')) {
+                        const newName = name.replace(/ExamParameters\[\d+\]/, `ExamParameters[${index}]`);
+                        input.setAttribute('name', newName);
+                    }
+                });
+                card.setAttribute('data-index', index);
+            });
+            parameterIndex = parameterCards.length;
+        }
+        
+        function toggleInsuranceName() {
+            const checkbox = document.querySelector('input[name="HasInsurance"]');
+            const insuranceGroup = document.getElementById('insuranceNameGroup');
+            
+            if (checkbox.checked) {
+                insuranceGroup.style.display = 'block';
+            } else {
+                insuranceGroup.style.display = 'none';
+                document.querySelector('input[name="InsuranceName"]').value = '';
+            }
+        }
+        
+        document.addEventListener('DOMContentLoaded', function() {
+            toggleInsuranceName();
+        });
+    </script>
+}

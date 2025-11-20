@@ -1,0 +1,236 @@
+@model DashboardViewModel
+@{
+    ViewData["Title"] = "Meu Perfil";
+}
+
+<div class="profile-view-header mb-4">
+    <div class="d-flex justify-content-between align-items-center">
+        <div class="profile-title">
+            <div class="profile-avatar">
+                <i class="bi bi-person-circle"></i>
+            </div>
+            <div>
+                <h2 class="mb-1">@Model.FirstName @Model.LastName</h2>
+                <p class="text-muted mb-0">Membro desde @Model.CreatedAt.ToString("MMMM yyyy")</p>
+            </div>
+        </div>
+        <a asp-area="Patient" asp-controller="Profile" asp-action="Edit" class="btn btn-primary edit-profile-btn">
+            <i class="bi bi-pencil"></i> Editar Perfil
+        </a>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="card profile-info-card">
+            <div class="card-header profile-section-header">
+                <div class="d-flex align-items-center">
+                    <div class="section-icon">
+                        <i class="bi bi-person-badge"></i>
+                    </div>
+                    <h5 class="mb-0 ms-2">Informações Pessoais</h5>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="profile-info-grid">
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="bi bi-person"></i>
+                        </div>
+                        <div class="info-content">
+                            <div class="info-label">Nome Completo</div>
+                            <div class="info-value">@Model.FirstName @Model.LastName</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="bi bi-credit-card"></i>
+                        </div>
+                        <div class="info-content">
+                            <div class="info-label">CPF</div>
+                            <div class="info-value">@(Model.Cpf ?? "Não informado")</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="bi bi-card-heading"></i>
+                        </div>
+                        <div class="info-content">
+                            <div class="info-label">RG</div>
+                            <div class="info-value">@(Model.Rg ?? "Não informado")</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="bi bi-calendar3"></i>
+                        </div>
+                        <div class="info-content">
+                            <div class="info-label">Data de Nascimento</div>
+                            <div class="info-value">@(Model.DateOfBirth?.ToString("dd/MM/yyyy") ?? "Não informado")</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="bi bi-gender-ambiguous"></i>
+                        </div>
+                        <div class="info-content">
+                            <div class="info-label">Gênero</div>
+                            <div class="info-value">
+                                @switch (Model.Gender)
+                                {
+                                    case Gender.Male:
+                                        <span class="gender-badge male">Masculino</span>
+                                        break;
+                                    case Gender.Female:
+                                        <span class="gender-badge female">Feminino</span>
+                                        break;
+                                    case Gender.Other:
+                                        <span class="gender-badge other">Outro</span>
+                                        break;
+                                    default:
+                                        <span class="gender-badge undefined">Não definido</span>
+                                        break;
+                                }
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card profile-contact-card mt-3">
+            <div class="card-header profile-section-header">
+                <div class="d-flex align-items-center">
+                    <div class="section-icon">
+                        <i class="bi bi-telephone"></i>
+                    </div>
+                    <h5 class="mb-0 ms-2">Contato</h5>
+                </div>
+            </div>
+            <div class="card-body p-0">
+                <div class="contact-info-grid">
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="bi bi-phone"></i>
+                        </div>
+                        <div class="info-content">
+                            <div class="info-label">Telefone</div>
+                            <div class="info-value">@(Model.Phone ?? "Não informado")</div>
+                        </div>
+                    </div>
+                    
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="bi bi-envelope"></i>
+                        </div>
+                        <div class="info-content">
+                            <div class="info-label">Email</div>
+                            <div class="info-value">@(Model.Email ?? "Não informado")</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card profile-medical-card">
+            <div class="card-header profile-section-header">
+                <div class="d-flex align-items-center">
+                    <div class="section-icon">
+                        <i class="bi bi-heart-pulse"></i>
+                    </div>
+                    <h5 class="mb-0 ms-2">Informações Médicas</h5>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="medical-info-item">
+                    <div class="medical-label">
+                        <i class="bi bi-droplet"></i> Tipo Sanguíneo
+                    </div>
+                    <div class="blood-type-display">
+                        @switch (Model.BloodType)
+                        {
+                            case BloodType.APositive:
+                                <span class="blood-badge a-positive">A+</span>
+                                break;
+                            case BloodType.ANegative:
+                                <span class="blood-badge a-negative">A-</span>
+                                break;
+                            case BloodType.BPositive:
+                                <span class="blood-badge b-positive">B+</span>
+                                break;
+                            case BloodType.BNegative:
+                                <span class="blood-badge b-negative">B-</span>
+                                break;
+                            case BloodType.ABPositive:
+                                <span class="blood-badge ab-positive">AB+</span>
+                                break;
+                            case BloodType.ABNegative:
+                                <span class="blood-badge ab-negative">AB-</span>
+                                break;
+                            case BloodType.OPositive:
+                                <span class="blood-badge o-positive">O+</span>
+                                break;
+                            case BloodType.ONegative:
+                                <span class="blood-badge o-negative">O-</span>
+                                break;
+                            default:
+                                <span class="blood-badge undefined">Não definido</span>
+                                break;
+                        }
+                    </div>
+                </div>
+                
+                <div class="medical-info-item">
+                    <div class="medical-label">
+                        <i class="bi bi-clipboard-pulse"></i> Histórico Médico
+                    </div>
+                    <div class="medical-history">
+                        @if (!string.IsNullOrEmpty(Model.MedicalHistory))
+                        {
+                            <div class="history-text">@Model.MedicalHistory</div>
+                        }
+                        else
+                        {
+                            <div class="no-history">Nenhum histórico informado</div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card profile-system-card mt-3">
+            <div class="card-header profile-section-header">
+                <div class="d-flex align-items-center">
+                    <div class="section-icon">
+                        <i class="bi bi-clock"></i>
+                    </div>
+                    <h5 class="mb-0 ms-2">Informações do Sistema</h5>
+                </div>
+            </div>
+            <div class="card-body">
+                <div class="system-info-item">
+                    <div class="system-label">
+                        <i class="bi bi-plus-circle"></i> Cadastrado em
+                    </div>
+                    <div class="system-value">@Model.CreatedAt.ToString("dd/MM/yyyy HH:mm")</div>
+                </div>
+                
+                @if (Model.UpdatedAt != Model.CreatedAt)
+                {
+                    <div class="system-info-item">
+                        <div class="system-label">
+                            <i class="bi bi-pencil"></i> Última atualização
+                        </div>
+                        <div class="system-value">@Model.UpdatedAt.ToString("dd/MM/yyyy HH:mm")</div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</div>
