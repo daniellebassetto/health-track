@@ -30,7 +30,9 @@ jobs:
         port: ${{ secrets.SERVER_PORT || 22 }}
         script: |
           sudo systemctl stop healthtrack || true
+          sudo mkdir -p /var/www/healthtrack
           sudo rm -rf /var/www/healthtrack/*
+          sudo chown -R $USER:$USER /var/www/healthtrack
           
     - name: Copy files to server
       uses: appleboy/scp-action@v0.1.7
