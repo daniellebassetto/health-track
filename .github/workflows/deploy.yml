@@ -45,7 +45,7 @@ jobs:
         target: "/var/www/healthtrack/"
         strip_components: 1
         
-    - name: Configure environment and start application
+    - name: Deploy with Docker Compose
       uses: appleboy/ssh-action@v1.0.3
       with:
         host: ${{ secrets.SERVER_HOST }}
@@ -55,30 +55,14 @@ jobs:
         script: |
           cd /var/www/healthtrack/
           
-          # Create appsettings.Production.json with secrets
-          sudo tee appsettings.Production.json > /dev/null <<EOF
-          {
-            "ConnectionStrings": {
-              "DefaultConnection": "server=mysql;database=health_track;user=root;password=${{ secrets.MYSQL_ROOT_PASSWORD }}"
-            },
-            "GeminiApi": {
-              "BaseUrl": "https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent",
-              "ApiKey": "${{ secrets.GEMINI_API_KEY }}",
-              "Model": "gemini-pro",
-              "MaxTokens": 8192,
-              "Temperature": 0.0
-            },
-            "Logging": {
-              "LogLevel": {
-                "Default": "Information",
-                "Microsoft.AspNetCore": "Warning"
-              }
-            },
-            "AllowedHosts": "*"
-          }
+          # Create .env file with secrets
+          cat > .env <<EOF
+          MYSQL_ROOT_PASSWORD=${{ secrets.MYSQL_ROOT_PASSWORD }}
+          GEMINI_API_KEY=${{ secrets.GEMINI_API_KEY }}
           EOF
           
-          sudo chown -R www-data:www-data /var/www/healthtrack/
-          sudo chmod +x /var/www/healthtrack/HealthTrack
-          sudo systemctl start healthtrack
-          sudo systemctl enable healthtrack
+          # Stop existing containers
+          docker-compose down || true
+          
+          # Build and start containers
+          docker-compose up -d --build
